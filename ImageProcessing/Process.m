@@ -1,4 +1,11 @@
-function z = opmaak(Width, Height, Name)
+function z = Process(Width, Height, Name)
+    % The function Process is designed to create neat pictures for use in
+    % reports. It saves a pdf in a (newly created) folder called figures.
+    % Figures are stored in pdf. 
+    % Input commands are:
+    % Width is image width
+    % Height is image height
+    % Name is a string containint the inteded image name. 
     FontSize = 50;
     GraphLineWidth = 3;
     MarkerSize = 10; % If a marker was used (x,+,*,o...) This is it's size.
