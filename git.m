@@ -64,7 +64,7 @@ function git(varargin)
                'Download it at http://git-scm.com/download');
     else
         % Otherwise we can call the real git with the arguments
-        arguments = parse(varargin{:});  
+        arguments = parse(varargin{:});
         if ispc
           prog = '';
         else

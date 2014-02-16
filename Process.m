@@ -40,4 +40,3 @@ function z = opmaak(Width, Height, Name)
     
     saveas(gcf, fullfile('figures', Name), 'pdf') %Saves the image as pdf in the figures folder.
 end
-%appeltaart
