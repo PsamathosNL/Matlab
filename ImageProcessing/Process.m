@@ -46,4 +46,5 @@ function z = Process(Width, Height, Name)
     end
     
     saveas(gcf, fullfile('figures', Name), 'pdf') %Saves the image as pdf in the figures folder.
+    saveas(gcf, fullfile('figures', Name), 'fig') %Saves the image as pdf in the figures folder.
 end
