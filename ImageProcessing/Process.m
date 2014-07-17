@@ -3,8 +3,8 @@ function z = Process(Width, Height, Name)
     % reports. It saves a pdf in a (newly created) folder called figures.
     % Figures are stored in pdf. 
     % Input commands are:
-    % Width is image width
-    % Height is image height
+    % Width is image width relative to page width in percentage
+    % Height is image height relative to page with in percentage
     % Name is a string containing the inteded image name. 
    
     if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
