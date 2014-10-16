@@ -1,4 +1,4 @@
-function z = Process(Width, Height, Name)
+function z = Process(Width, Height, filename)
 % The function Process is designed to create neat pictures for use in
 % reports. It saves a pdf in a (newly created) folder called figures.
 % Figures are stored in pdf.
@@ -11,7 +11,7 @@ if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
     str = strcat('figures', filesep, 'fig');
     mkdir(str);
 end
-saveas(gcf, fullfile('figures/fig', Name), 'fig'); %saving backup fig
+saveas(gcf, fullfile('figures', filesep, 'fig',filesep, filename), 'fig'); %saving backup fig
 
 %% Initializing defaults
 page = 24; %defailt a4 width
@@ -23,7 +23,7 @@ FontName = 'AvantGarde'; % Fonttype, chosen freely.
 FontWeight = 'Bold';  % [light normal, demi, bold]
 
 %% Changing figure borders and grid, grid might be offensive
-grid on % Turns the grid on
+grid off % Turns the grid off (prefered by most editors)
 box on  % Turns box on
 GridLineStyle = '--'; % [-, --, :, -., none]
 LineWidth = 1; % Thickness of the grid and the axis.
@@ -46,7 +46,7 @@ Width  = Width  * page / 100;
 hline = findobj(gcf, 'type', 'line');
 set(hline, 'LineWidth', GraphLineWidth, 'MarkerSize', MarkerSize)
 set(gcf, 'PaperUnits', 'centimeters')
-set(gcf, 'PaperPosition', [0 0 Width Height], 'PaperSize', [Width, Height]);
+set(gcf, 'PaperPosition', [0, 0, Width, Height]', 'PaperSize', [Width, Height]);
 set(gca, 'LineWidth', LineWidth, 'GridLineStyle', GridLineStyle, 'FontSize', FontSize, 'fontWeight', FontWeight, 'FontName', FontName)
 h_xlabel = get(gca,'XLabel');
 h_ylabel = get(gca,'YLabel');
@@ -55,5 +55,5 @@ set(h_xlabel,'FontSize', FontSize, 'FontWeight', FontWeight, 'FontName', FontNam
 set(h_ylabel,'FontSize', FontSize, 'FontWeight', FontWeight, 'FontName', FontName);
 set(h_title,'FontSize', FontSize+3, 'FontWeight', FontWeight, 'FontName', FontName);
 
-saveas(gcf, fullfile('figures', Name), 'pdf') %Saves the image as pdf in the figures folder.
+saveas(gcf, fullfile('figures', filename), 'pdf') %Saves the image as pdf in the figures folder.
 end
