@@ -8,7 +8,8 @@ function z = Process(Width, Height, Name)
 % Name is a string containing the inteded image name.
 
 if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
-    mkdir figures/fig
+    str = strcat('figures', filesep, 'fig');
+    mkdir(str);
 end
 saveas(gcf, fullfile('figures/fig', Name), 'fig'); %saving backup fig
 
