@@ -20,6 +20,7 @@ function z = Process(filename, varargin)
 % height    -   The image height
 % widht     -   The image widht
 % fontsize  -   The fontsize of labels, legenda entries etc.
+% autocut   -   Autocutting the image leaving 10% margin on all sides.
 % Example:
 % Process('title', 'Excellent plot', 'height', 100, 'width', 161)
 
@@ -30,11 +31,11 @@ defaultHeight = 100;            % Default image height
 defaultWidth = 161;             % Default image width (based on phi)
 defaultFontSize = 24;           % Used fontsize (labels, legenda, etc)
 defaultAutoCut = false;
-defaultTitle = 'Awesome plot by Jaap';
+defaulFileName = 'Awesome plot by Jaap';
 addOptional(p, 'width',  defaultWidth, @isnumeric);
 addOptional(p, 'height', defaultHeight, @isnumeric);
 addOptional(p, 'fontsize', defaultFontSize, @isnumeric);
-addOptional(p, 'filename', defaultTitle);
+addOptional(p, 'filename', defaulFileName);
 addOptional(p, 'autoCut', defaultAutoCut); %add boolean check
 
 parse(p, filename, varargin{:})
@@ -61,9 +62,7 @@ box on                  % Turns box on
 GridLineStyle = '--';   % [-, --, :, -., none] not in use when grid is off
 LineWidth = 1;          % Thickness of the axis and grid.
 
-%Settings are applied from here, to adjust the layout of the graph only
-%change the upper part.
-
+%% autocutting image using 10% margins on all sides
 h_line = findobj(gcf, 'type', 'line');
 
 if p.Results.autoCut
@@ -77,14 +76,19 @@ if p.Results.autoCut
     axis([cutoffX, cutoffY])
 end
 
-set(h_line, 'LineWidth', GraphLineWidth, 'MarkerSize', MarkerSize)
-set(gcf, 'PaperUnits', 'centimeters')
-set(gcf, 'PaperPosition', [0, 0, p.Results.width, p.Results.height]',...
-    'PaperSize', [p.Results.width, p.Results.height]);
-set(gca, 'LineWidth', LineWidth, 'GridLineStyle', GridLineStyle,...
-    'FontSize', p.Results.fontsize, 'fontWeight', FontWeight,...
-    'FontName', FontName,...
-    'XColor', axisColor, 'YColor', axisColor)
+set(h_line, 'LineWidth', GraphLineWidth,...
+            'MarkerSize', MarkerSize)
+set(gcf, 'PaperUnits', 'centimeters',...
+         'PaperPosition', [0, 0, p.Results.width, p.Results.height]',...
+         'PaperSize', [p.Results.width, p.Results.height]);
+     
+set(gca, 'LineWidth', LineWidth,...
+         'GridLineStyle', GridLineStyle,...
+         'FontSize', floor(p.Results.fontsize/1.5+1),...
+         'fontWeight', FontWeight,...
+         'FontName', FontName,...
+         'XColor', axisColor,...
+         'YColor', axisColor);
 
 h_xlabel = get(gca,'XLabel');
 h_ylabel = get(gca,'YLabel');
