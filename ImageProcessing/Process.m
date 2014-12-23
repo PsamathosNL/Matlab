@@ -1,4 +1,4 @@
-function z = Process(filename, varargin)
+function z = Process(varargin)
 % Process() is a function designed to make consistent image processing
 % easy and nice. It should be used by calling it after plotting an image.
 % Required additions as labels, legenda etc should be added before calling
@@ -31,20 +31,21 @@ defaultHeight = 100;            % Default image height
 defaultWidth = 161;             % Default image width (based on phi)
 defaultFontSize = 24;           % Used fontsize (labels, legenda, etc)
 defaultAutoCut = false;
-defaulFileName = 'Awesome plot by Jaap';
+defaultFileName = 'Awesome plot by Jaap';
+defaultTitle = '';
 addOptional(p, 'width',  defaultWidth, @isnumeric);
 addOptional(p, 'height', defaultHeight, @isnumeric);
 addOptional(p, 'fontsize', defaultFontSize, @isnumeric);
-addOptional(p, 'filename', defaulFileName);
+addOptional(p, 'filename', defaultFileName);
 addOptional(p, 'autoCut', defaultAutoCut); %add boolean check
-
-parse(p, filename, varargin{:})
+addOptional(p, 'title', defaultTitle);
+parse(p, varargin{:})
 
 if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
     mkdir(strcat('figures', filesep, 'fig'));
 end
 saveas(gcf, fullfile('figures', filesep,...
-    'fig',filesep, filename), 'fig'); %saving backup fig
+    'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
 
 
 %% Initializing defaults
@@ -55,6 +56,11 @@ FontName = 'Helvetica';   % Fonttype, chosen semi freely (only a couple are supp
 FontWeight = 'Bold';       % [light normal, demi, bold]
 fontColor = 0.4*ones(1,3);
 axisColor = 0.5*ones(1,3);
+
+%% Setting title
+if ~isempty(p.Results.title)
+    title(p.Results.title)
+end
 
 %% Changing figure borders and grid
 grid off                % Turns the grid off (prefered by most editors)
@@ -112,6 +118,6 @@ set([h_xlabel, h_ylabel, h_title],...
 
 set(h_title,'FontSize', p.Results.fontsize+3);
 
-saveas(gcf, fullfile('figures', filename), 'pdf') %Saves the image as pdf in the figures folder
+saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
 
 end
