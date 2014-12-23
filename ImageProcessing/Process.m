@@ -71,7 +71,7 @@ LineWidth = 1;          % Thickness of the axis and grid.
 %% autocutting image using 10% margins on all sides
 h_line = findobj(gcf, 'type', 'line');
 
-if p.Results.autoCut
+if p.Results.autoCut && ~isempty(h_line)
     xmin = min([h_line.XData]);
     ymin = min([h_line.YData]);
     zmin = min([h_line.ZData]);
