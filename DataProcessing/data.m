@@ -1,6 +1,6 @@
 classdef data < handle
-    %DATA Summary of this class goes here
-    %   Detailed explanation goes here
+    % The purpose of this object is to store data in which is obtained by
+    % analyse.m
     
     properties
         % integers
@@ -20,40 +20,8 @@ classdef data < handle
             %arra's
             obj.arr1 = [obj.arr1,  c1.arr1];
         end
-        
-        function obj = scrape(obj)
-            path = pwd;
-            
-            
-            % Listing subfolders which might need to be processed
-            listings = dir(path);
-            isub = [listings(:).isdir];
-            nameFolds = {listings(isub).name}';
-            nameFolds(ismember(nameFolds,{'.','..'})) = [];
-            if isempty(nameFolds)
-                save('dataHolder', 'dataHolder')
-                return
-            end
-            
-            % Recursively processing the subfolders.
-            for i = 1:length(nameFolds)
-                sub = nameFolds(i);
-                folder = strcat(path, '/', sub{1});
-                
-                % If subfolder contains data, merge. 
-                if exist(strcat(folder, '/dataHolder.mat'))
-                    cd(folder)
-                    load('dataHolder.mat')
-                    dataHolder.refresh()
-                    cd('..')
-                    subs = load(sprintf(folder, '/dataHolder.mat'))
-                    %merging todo
-                    obj.merge(obj, subs.dataHolder)
-                end
-            end
-        end
     end
 end
 
-end
+
 
