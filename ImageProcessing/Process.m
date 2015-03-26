@@ -44,8 +44,8 @@ parse(p, varargin{:})
 if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
     mkdir(strcat('figures', filesep, 'fig'));
 end
-saveas(gcf, fullfile('figures', filesep,...
-    'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
+%saveas(gcf, fullfile('figures', filesep,...
+%    'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
 
 
 %% Initializing defaults
@@ -117,6 +117,12 @@ set([h_xlabel, h_ylabel, h_title],...
     'Color', fontColor);
 
 set(h_title,'FontSize', p.Results.fontsize+3);
+
+figure = get(gca, 'Parent');
+children = get(figure, 'Children');
+legend = children(1);
+legend.Position(1) = 0.92;
+
 
 saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
 
