@@ -119,10 +119,11 @@ set([h_xlabel, h_ylabel, h_title],...
 set(h_title,'FontSize', p.Results.fontsize+3);
 
 figure = get(gca, 'Parent');
-children = get(figure, 'Children');
-legend = children(1);
-legend.Position(1) = 0.92;
-
+children = get(figure, 'Children')
+if length(children) > 1
+    legend = children(1);
+    legend.Position(1) = 0.92;
+end
 
 saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
 
