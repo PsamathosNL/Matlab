@@ -29,7 +29,7 @@ p = inputParser;
 p.CaseSensitive = false;        % Fuck capitals
 defaultHeight = 100;            % Default image height
 defaultWidth = 161;             % Default image width (based on phi)
-defaultFontSize = 24;           % Used fontsize (labels, legenda, etc)
+defaultFontSize = 30;           % Used fontsize (labels, legenda, etc)
 defaultAutoCut = false;
 defaultFileName = 'Awesome plot by Jaap';
 defaultTitle = '';
@@ -41,21 +41,22 @@ addOptional(p, 'autoCut', defaultAutoCut); %add boolean check
 addOptional(p, 'title', defaultTitle);
 parse(p, varargin{:})
 
+%% creating save structure and backup file
 if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
     mkdir(strcat('figures', filesep, 'fig'));
 end
-%saveas(gcf, fullfile('figures', filesep,...
-%    'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
+saveas(gcf, fullfile('figures', filesep,...
+    'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
 
 
 %% Initializing defaults
-GraphLineWidth = 3;      % The linewidth of the graph lines
-MarkerSize = 10;         % The size of the markers
-
-FontName = 'Helvetica';   % Fonttype, chosen semi freely (only a couple are supported)
-FontWeight = 'Bold';       % [light normal, demi, bold]
-fontColor = 0.4*ones(1,3);
-axisColor = 0.5*ones(1,3);
+GraphLineWidth = 3;         % The linewidth of the graph lines
+MarkerSize = 10;            % The size of the markers
+margin = 0.1;               % Margin around the info
+FontName = 'Helvetica';     % Fonttype, chosen semi freely (only a couple are supported)
+FontWeight = 'Bold';        % [light normal, demi, bold]
+fontColor = 0.4*ones(1,3);  % 0 is black 1 is white
+axisColor = 0.5*ones(1,3);  % 0 is black 1 is white
 
 %% Setting title
 if ~isempty(p.Results.title)
@@ -68,7 +69,7 @@ box on                  % Turns box on
 GridLineStyle = '--';   % [-, --, :, -., none] not in use when grid is off
 LineWidth = 1;          % Thickness of the axis and grid.
 
-%% autocutting image using 10% margins on all sides
+%% autocutting image
 h_line = findobj(gcf, 'type', 'line');
 
 if p.Results.autoCut && ~isempty(h_line)
@@ -78,9 +79,9 @@ if p.Results.autoCut && ~isempty(h_line)
     xmax = max([h_line.XData]);
     ymax = max([h_line.YData]);
     zmax = max([h_line.ZData]);
-    cutoffX = [xmin-0.1*(xmax-xmin), xmax + 0.1*(xmax-xmin)];
-    cutoffY = [ymin-0.1*(ymax-ymin), ymax + 0.1*(ymax-ymin)];
-    cutoffZ = [zmin-0.1*(zmax-zmin), zmax + 0.1*(zmax-zmin)];
+    cutoffX = [xmin-margin*(xmax-xmin), xmax + margin*(xmax-xmin)];
+    cutoffY = [ymin-margin*(ymax-ymin), ymax + margin*(ymax-ymin)];
+    cutoffZ = [zmin-margin*(zmax-zmin), zmax + margin*(zmax-zmin)];
     
     axis([cutoffX, cutoffY]);
     if ~isempty(cutoffZ)
@@ -88,14 +89,17 @@ if p.Results.autoCut && ~isempty(h_line)
     end
 end
 
-set(h_line,...
-    'LineWidth', GraphLineWidth,...
-    'MarkerSize', MarkerSize)
+%% Adjusting canvas
 set(gcf,...
     'PaperUnits', 'centimeters',...
     'PaperPosition', [0, 0, p.Results.width, p.Results.height]',...
     'PaperSize', [p.Results.width, p.Results.height],...
     'KeyPressFcn', 'close');
+
+%% Lines and Marker makeup
+set(h_line,...
+    'LineWidth', GraphLineWidth,...
+    'MarkerSize', MarkerSize)
 
 set(gca,...
     'LineWidth', LineWidth,...
@@ -106,17 +110,15 @@ set(gca,...
     'XColor', axisColor,...
     'YColor', axisColor);
 
-h_xlabel = get(gca,'XLabel');
-h_ylabel = get(gca,'YLabel');
-h_title = get(gca, 'Title');
-
-set([h_xlabel, h_ylabel, h_title],...
+%% Label makeup
+labels = {'XLabel', 'YLabel', 'ZLabel', 'Title'};
+h_labels = get(gca, labels);
+set([h_labels{:}],...
     'FontSize', p.Results.fontsize,...
     'FontWeight', FontWeight,...
     'FontName', FontName,...
     'Color', fontColor);
-
-set(h_title,'FontSize', p.Results.fontsize+3);
+set(h_labels{4},'FontSize', p.Results.fontsize+3);
 
 figure = get(gca, 'Parent');
 children = get(figure, 'Children');
