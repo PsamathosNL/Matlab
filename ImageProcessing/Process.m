@@ -21,6 +21,7 @@ function z = Process(varargin)
 % widht     -   The image widht
 % fontsize  -   The fontsize of labels, legenda entries etc.
 % autocut   -   Autocutting the image leaving 10% margin on all sides.
+
 % Example:
 % Process('title', 'Excellent plot', 'height', 100, 'width', 161)
 
@@ -45,7 +46,7 @@ parse(p, varargin{:})
 if exist('figures/fig', 'dir') ~= 7   %checks if apropriate folder exists
     mkdir(strcat('figures', filesep, 'fig'));
 end
-saveas(gcf, fullfile('figures', filesep,...
+    saveas(gcf, fullfile('figures', filesep,...
     'fig',filesep, p.Results.filename), 'fig'); %saving backup fig
 
 
@@ -83,10 +84,8 @@ if p.Results.autoCut && ~isempty(h_line)
     cutoffY = [ymin-margin*(ymax-ymin), ymax + margin*(ymax-ymin)];
     cutoffZ = [zmin-margin*(zmax-zmin), zmax + margin*(zmax-zmin)];
     
-    axis([cutoffX, cutoffY]);
-    if ~isempty(cutoffZ)
-        zlim([cutoffZ]);
-    end
+    axis([cutoffX, cutoffY cutoffZ]);
+
 end
 
 %% Adjusting canvas
