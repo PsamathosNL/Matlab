@@ -34,12 +34,16 @@ defaultFontSize = 30;           % Used fontsize (labels, legenda, etc)
 defaultAutoCut = false;
 defaultFileName = 'Awesome plot by Jaap';
 defaultTitle = '';
+defaultGrid = 'off';
+defaultFontZizeLegend=35;
 addOptional(p, 'width',  defaultWidth, @isnumeric);
 addOptional(p, 'height', defaultHeight, @isnumeric);
 addOptional(p, 'fontsize', defaultFontSize, @isnumeric);
+addOptional(p, 'fontsizelegend', defaultFontZizeLegend, @isnumeric);
 addOptional(p, 'filename', defaultFileName);
 addOptional(p, 'autoCut', defaultAutoCut); %add boolean check
 addOptional(p, 'title', defaultTitle);
+addOptional(p, 'grid', defaultGrid);
 parse(p, varargin{:})
 
 %% creating save structure and backup file
@@ -56,8 +60,8 @@ MarkerSize = 10;            % The size of the markers
 margin = 0.1;               % Margin around the info
 FontName = 'Helvetica';     % Fonttype, chosen semi freely (only a couple are supported)
 FontWeight = 'Bold';        % [light normal, demi, bold]
-fontColor = 0.4*ones(1,3);  % 0 is black 1 is white
-axisColor = 0.5*ones(1,3);  % 0 is black 1 is white
+fontColor = 0.0*ones(1,3);  % 0 is black 1 is white
+axisColor = 0.0*ones(1,3);  % 0 is black 1 is white
 
 %% Setting title
 if ~isempty(p.Results.title)
@@ -65,7 +69,9 @@ if ~isempty(p.Results.title)
 end
 
 %% Changing figure borders and grid
-grid off                % Turns the grid off (prefered by most editors)
+
+
+set(gca,'Xgrid',p.Results.grid,'Ygrid',p.Results.grid)     % Turns the grid off (prefered by most editors)
 box on                  % Turns box on
 GridLineStyle = '--';   % [-, --, :, -., none] not in use when grid is off
 LineWidth = 1;          % Thickness of the axis and grid.
@@ -117,13 +123,14 @@ set([h_labels{:}],...
     'FontWeight', FontWeight,...
     'FontName', FontName,...
     'Color', fontColor);
-set(h_labels{4},'FontSize', p.Results.fontsize+3);
+set(h_labels{4},'FontSize', p.Results.fontsize+5);
 
 figure = get(gca, 'Parent');
 children = get(figure, 'Children');
 legend = findobj(children, 'Type', 'Legend');
+set(legend,'FontSize',p.Results.fontsizelegend)
 if ~isempty(legend)
-    legend.Position(1) = 0.92;
+    legend.Position(1) = 0.90;
 end
 
 saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
