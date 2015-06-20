@@ -35,11 +35,11 @@ defaultAutoCut = false;
 defaultFileName = 'Awesome plot by Jaap';
 defaultTitle = '';
 defaultGrid = 'off';
-defaultFontZizeLegend=35;
+defaultFontSizeLegend=35;
 addOptional(p, 'width',  defaultWidth, @isnumeric);
 addOptional(p, 'height', defaultHeight, @isnumeric);
 addOptional(p, 'fontsize', defaultFontSize, @isnumeric);
-addOptional(p, 'fontsizelegend', defaultFontZizeLegend, @isnumeric);
+addOptional(p, 'fontsizelegend', defaultFontSizeLegend, @isnumeric);
 addOptional(p, 'filename', defaultFileName);
 addOptional(p, 'autoCut', defaultAutoCut); %add boolean check
 addOptional(p, 'title', defaultTitle);
