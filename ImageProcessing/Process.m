@@ -128,9 +128,9 @@ set(h_labels{4},'FontSize', p.Results.fontsize+5);
 figure = get(gca, 'Parent');
 children = get(figure, 'Children');
 legend = findobj(children, 'Type', 'Legend');
-set(legend,'FontSize',p.Results.fontsizelegend)
 if ~isempty(legend)
     legend.Position(1) = 0.90;
+    set(legend,'FontSize',p.Results.fontsizelegend)
 end
 
 saveas(gcf, fullfile('figures', p.Results.filename), 'pdf') %Saves the image as pdf in the figures folder
