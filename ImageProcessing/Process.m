@@ -28,18 +28,20 @@ function z = Process(varargin)
 
 p = inputParser;
 p.CaseSensitive = false;        % Fuck capitals
-defaultHeight = 100;            % Default image height
-defaultWidth = 161;             % Default image width (based on phi)
-defaultFontSize = 30;           % Used fontsize (labels, legenda, etc)
+defaultHeight = 10;            % Default image height
+defaultWidth = 16.1;             % Default image width (based on phi)
+defaultFontSize = 15;           % Used fontsize (labels)
+defaultFontSizeLegend=13;
+defaultFontSizeTitle=18;
 defaultAutoCut = false;
 defaultFileName = 'Awesome plot by Jaap';
 defaultTitle = '';
 defaultGrid = 'off';
-defaultFontSizeLegend=35;
 addOptional(p, 'width',  defaultWidth, @isnumeric);
 addOptional(p, 'height', defaultHeight, @isnumeric);
 addOptional(p, 'fontsize', defaultFontSize, @isnumeric);
 addOptional(p, 'fontsizelegend', defaultFontSizeLegend, @isnumeric);
+addOptional(p, 'fontsizetitle', defaultFontSizeTitle, @isnumeric);
 addOptional(p, 'filename', defaultFileName);
 addOptional(p, 'autoCut', defaultAutoCut); %add boolean check
 addOptional(p, 'title', defaultTitle);
@@ -69,8 +71,6 @@ if ~isempty(p.Results.title)
 end
 
 %% Changing figure borders and grid
-
-
 set(gca,'Xgrid',p.Results.grid,'Ygrid',p.Results.grid)     % Turns the grid off (prefered by most editors)
 box on                  % Turns box on
 GridLineStyle = '--';   % [-, --, :, -., none] not in use when grid is off
@@ -123,13 +123,17 @@ set([h_labels{:}],...
     'FontWeight', FontWeight,...
     'FontName', FontName,...
     'Color', fontColor);
-set(h_labels{4},'FontSize', p.Results.fontsize+5);
+set(h_labels{4},'FontSize', p.Results.fontsizetitle);
 
 figure = get(gca, 'Parent');
 children = get(figure, 'Children');
 legend = findobj(children, 'Type', 'Legend');
+
 if ~isempty(legend)
-    legend.Position(1) = 0.90;
+%     legend.Position(1) = 0.90; 
+% Nico: This places the legend out of scope. I do not know what the
+% original purpose was, but would recommend using Location instead of
+% Position.
     set(legend,'FontSize',p.Results.fontsizelegend)
 end
 
