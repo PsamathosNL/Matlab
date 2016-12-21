@@ -1,8 +1,8 @@
-function figuren
+function figures
 
 %dit is de funtie waarmee je de positie van een figuur kunt vastleggen, dus
 %waar in beeld die verschijnt. Gebruiken door onderaan je document de
-%functie figuren aan te roepen zonder input arguments. De functie zal het
+%functie figures aan te roepen zonder input arguments. De functie zal het
 %aantal figuren bepalen en verdelen over vier posities op het scherm.
 
 fig=flipud(findall(0,'type','figure'));
