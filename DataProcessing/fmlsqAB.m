@@ -18,7 +18,7 @@ if n<3
     error ('Not enough data! Series should have at least 3 data.');
 end
 
-if length(y)~=n | length(w)~=n
+if length(y)~=n || length(w)~=n
     error ('Arrays have unequal length!')
 end
 
